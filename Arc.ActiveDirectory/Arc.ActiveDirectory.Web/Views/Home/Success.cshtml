@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewBag.Title = "Success";
+}
+
+<div class="page-header">
+    <h1>
+        Success!
+    </h1>
+    <h3>Your password has been changed.</h3>
+</div>
+
+@if (ViewBag.WillRedirect == true)
+{
+<p>You will be redirected to <a class="text-success" href="@ViewBag.RedirectUrl">@ViewBag.RedirectUrl</a> in 5 seconds.</p>
+}
+
+

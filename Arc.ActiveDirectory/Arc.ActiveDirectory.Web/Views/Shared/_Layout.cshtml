@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link runat="server" rel="shortcut icon" href="~/img/favicon.ico" type="image/x-icon" />
+    <link runat="server" rel="icon" href="~/img/favicon.ico" type="image/ico" />
+    <title>The London Clinic</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+</head>
+<body>
+    <div class="container body-content">
+        <div class="login-wrapper">
+            <div class="login-container alpha60">
+                <div class="p-l-20 m-l-15 p-r-20 m-r-15 p-t-20 m-t-20 p-b-20 m-b-20 sm-p-l-15 sm-p-r-15 sm-p-t-15 sm-p-b-10">
+                    <div style="text-align: center;">
+                        <img src="~/img/logo.png" alt="logo" data-src="img/logo.png" data-src-retina="img/logo.png" style="display: inline-block; vertical-align: middle;" width="105" height="105">
+                    </div>
+
+                    <div style="overflow: auto;">
+                        @RenderBody()
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

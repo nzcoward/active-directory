@@ -1,6 +1,8 @@
 ﻿using Arc.ActiveDirectory.Extensions;
 using System;
+using System.Collections.Generic;
 using System.DirectoryServices;
+using System.DirectoryServices.AccountManagement;
 
 namespace Arc.ActiveDirectory
 {
@@ -22,6 +24,18 @@ namespace Arc.ActiveDirectory
                 using (var entry = _result.GetAmbientDirectoryEntry())
                 {
                     return (bool)entry.InvokeGet("IsAccountLocked");
+                }
+            }
+        }
+
+        public bool IsPasswordExpired
+        {
+            get
+            {
+                using (var entry = _result.GetAmbientDirectoryEntry())
+                {
+                    return (bool)entry.InvokeGet("PasswordExpired");
+                    //return (bool)_result.Properties["passwordExpired"][0];
                 }
             }
         }
@@ -100,9 +114,9 @@ namespace Arc.ActiveDirectory
             }
         }
 
-        public ResultPropertyValueCollection MemberOf
+        public IEnumerable<string> MemberOf
         {
-            get { return _result.Properties["memberof"]; }
+            get { return _result.Properties["memberof"].Cast<string>(); }
         }
 
         public string Department
@@ -317,12 +331,45 @@ namespace Arc.ActiveDirectory
             }
         }
 
+        public void Lock()
+        {
+            using (var entry = _result.GetAmbientDirectoryEntry())
+            {
+                if (IsLocked)
+                    return; //no changes to make... 
+
+                entry.InvokeSet("IsAccountLocked", true);
+                entry.CommitChanges(); //may not be needed but adding it anyways   
+            }
+        }
+
+        /// <summary>
+        /// Change password before expired?
+        /// </summary>
+        public void ChangePassword(string oldPassword, string newPassword)
+        {
+            using (var context = new PrincipalContext(ContextType.Domain))
+            {
+                using (var principal = UserPrincipal.FindByIdentity(context, Name))
+                {
+                    principal.ChangePassword(oldPassword, newPassword);
+                }
+            }
+
+
+            //using (var entry = _result.GetAmbientDirectoryEntry())
+            //{
+            //    entry.Invoke("ChangePassword", new object[] { oldPassword, newPassword });
+            //    entry.CommitChanges(); //may not be needed but adding it anyways   
+            //}
+        }
+
         public void ResetPassword(string password)
         {
             using (var entry = _result.GetAmbientDirectoryEntry())
             {
                 entry.Invoke("SetPassword", new object[] { password });
-                entry.Properties["LockOutTime"].Value = 0; //unlock account
+                //entry.Properties["LockOutTime"].Value = 0; //unlock account
                 entry.CommitChanges(); //may not be needed but adding it anyways   
             }
         }

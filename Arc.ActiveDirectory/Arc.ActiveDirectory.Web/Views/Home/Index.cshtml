@@ -1,0 +1,120 @@
+﻿@{
+    ViewBag.Title = "The London Clinic password reset portal";
+}
+
+<style>
+    .list-errors {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+    }
+
+    .loader {
+        display: none;
+    }
+</style>
+
+@section scripts
+{
+<script>
+    var submit = function (form) {
+        $('.list-errors').html('');
+        $('#submit').hide();
+        $('.loader').show();
+        var data = form.serialize();
+
+        $.ajax({
+            type: "POST",
+            url: '/' + window.location.search,
+            data: data,
+            dataType: 'json'
+        })
+          .done(function (data) {
+              $('.loader').hide();
+              $('#submit').show();
+              if (data.isSuccess === false) {
+                  
+                  if (data.messages) {
+                      for (error of data.messages) {
+                          $('.list-errors').append('<li>' + error + '</li>');
+                      }
+                  }
+              }
+              else {
+                  if (data.performRedirect === true) {
+                      //window.location.replace('/PasswordReset/' + data.redirectUrl);
+                      window.location.pathname = data.redirectUrl;
+                  }
+              }
+
+          })
+          .fail(function () {
+              $('.loader').hide();
+              $('#submit').show();
+          });
+    };
+
+    $("#form").on("submit", function (ev) {
+        ev.preventDefault();
+        submit($(this));
+    });
+</script>
+}
+
+<h3 class="text-center">Password Reset Portal</h3>
+<form id="form" class="p-t-15" name="form" method="post" action="">
+
+    @Html.AntiForgeryToken()
+
+    <label for="username">USERNAME:</label>
+    <div class="form-group form-group-default">
+        <div class="controls">
+            <input required name="username" autofocus id="username" type="text" class="form-control" placeholder="The London Clinic Username" maxlength="100">
+        </div>
+    </div>
+
+    <label for="oldpassword">OLD PASSWORD:</label>
+    <div class="form-group form-group-default">
+        <div class="controls">
+            <input required id="oldpassword" name="oldpassword" type="password" class="form-control" placeholder="Old Password" maxlength="100" autocomplete="off">
+        </div>
+    </div>
+
+    <label for="password">NEW PASSWORD:</label>
+    <div class="form-group form-group-default">
+        <div class="controls">
+            <input required id="password" name="password" type="password" class="form-control" placeholder="New Password" maxlength="100" autocomplete="off">
+        </div>
+    </div>
+
+    <label for="repeatpassword">REPEAT NEW PASSWORD:</label>
+    <div class="form-group form-group-default">
+        <div class="controls">
+            <input required id="repeatpassword" name="repeatpassword" type="password" class="form-control" placeholder="Repeat New Password" maxlength="100" autocomplete="off">
+        </div>
+    </div>
+
+    <div class="text-warning">
+        <ul class="list-errors">
+        </ul>
+    </div>
+
+    <br />
+    <div style="height: 200px; overflow: auto;">
+        <p>By clicking on the 'Reset Password' button, you agree to abide by the terms of The London Clinic's Information Technology usage policy and Electronic Communications Policy and that your activity can and will be monitored.</p>
+        <p>
+            If you do not have authorisation to reset the above account's password, you should NOT click 'Reset Password' and close this page IMMEDIATELY.
+            Misuse, malicious activity or breaching any of The London Clinic's communications, security or usage policies may result in disciplinary action and/or legal action.
+        </p>
+    </div>
+    <br />
+    <div class="text-center">
+        <div class="loader" >
+            <img src="~/img/ajax-loader.gif" style="margin:auto;" />
+            <p>
+                This process may take up to 10 seconds to complete.
+            </p>
+        </div>
+        <button id="submit" class="btn btn-primary btn-cons m-t-10" type="submit">Reset Password</button>
+    </div>
+</form>

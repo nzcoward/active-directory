@@ -16,6 +16,8 @@ namespace Arc.ActiveDirectory
 
         private readonly DirectoryEntry _directoryEntry;
 
+        public event EventHandler Disposed;
+
         public DirectoryEntryWrapper(DirectoryEntry directoryEntry)
         {
             _directoryEntry = directoryEntry;
@@ -47,12 +49,6 @@ namespace Arc.ActiveDirectory
         public IContainer Container
         {
             get { return _directoryEntry.Container; }
-        }
-
-        public event EventHandler Disposed
-        {
-            add { _directoryEntry.Disposed += value; }
-            remove { _directoryEntry.Disposed -= value; }
         }
 
         public void Close()
@@ -223,6 +219,16 @@ namespace Arc.ActiveDirectory
             }
 
             _directoryEntry.Dispose();
+            OnDisposed();
+        }
+
+        private void OnDisposed()
+        {
+            var disposed = this.Disposed;
+            if (disposed == null)
+                return;
+
+            disposed(this, EventArgs.Empty);
         }
     }
 }

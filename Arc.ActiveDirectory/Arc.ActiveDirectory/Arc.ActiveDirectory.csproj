@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Arc.ActiveDirectory</RootNamespace>
     <AssemblyName>Arc.ActiveDirectory</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,6 +34,8 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.DirectoryServices.AccountManagement" />
+    <Reference Include="System.DirectoryServices.Protocols" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,9 +47,11 @@
     <Compile Include="ComputerSearchResult.cs" />
     <Compile Include="DirectoryEntryWrapper.cs" />
     <Compile Include="DirectoryFinder.cs" />
+    <Compile Include="DirectoryManager.cs" />
     <Compile Include="Exceptions\ComputerNotFoundException.cs" />
     <Compile Include="Exceptions\GroupNotFoundException.cs" />
     <Compile Include="Exceptions\UserNotFoundException.cs" />
+    <Compile Include="Extensions\ResultPropertyValueCollectionExtensions.cs" />
     <Compile Include="Extensions\SearchResultExtensions.cs" />
     <Compile Include="Finders.cs" />
     <Compile Include="GroupSearchResult.cs" />

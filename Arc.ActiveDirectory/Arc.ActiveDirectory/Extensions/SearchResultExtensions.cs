@@ -24,12 +24,20 @@ namespace Arc.ActiveDirectory.Extensions
             lock (_lock)
             {
                 if (_current == null)
+                {
                     _current = new DirectoryEntryWrapper(target.GetDirectoryEntry());
+                    _current.Disposed += current_Disposed;
+                }
 
                 _current.Enlist();
             }
 
             return _current;
+        }
+
+        private static void current_Disposed(object sender, EventArgs e)
+        {
+            _current = null;
         }
     }
 }
