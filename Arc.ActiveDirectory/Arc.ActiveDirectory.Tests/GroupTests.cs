@@ -4,7 +4,7 @@ namespace Arc.ActiveDirectory.Tests
 {
     public class DefaultGroupFinder : GroupFinder
     {
-        public DefaultGroupFinder() : base("LDAPPath")
+        public DefaultGroupFinder() : base("LDAP://OU=Phoenix Users,DC=phoenix,DC=thelondonclinic,DC=com")
         { }
     }
 

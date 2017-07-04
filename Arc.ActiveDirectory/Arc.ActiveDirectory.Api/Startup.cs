@@ -26,11 +26,11 @@ namespace Arc.ActiveDirectory.Api
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
 
             var policy = new LockoutPolicy(new[] {
-                new LockoutPolicyItem(x => x == 1 || x == 2, "Login unsuccessful"),
-                new LockoutPolicyItem(x => x == 3 || x == 4, "Login unsuccessful. You will now need to wait 30 seconds before you can attempt to log in again.", TimeSpan.FromSeconds(30)),
-                new LockoutPolicyItem(x => x == 5 || x == 6, "Login unsuccessful. You will now need to wait 2 minutes before you can attempt to log in again.", TimeSpan.FromMinutes(2)),
-                new LockoutPolicyItem(x => x == 7 || x == 8 || x == 9, "Login unsuccessful. You will now need to wait 30 minutes before you can attempt to log in again.", TimeSpan.FromMinutes(30)),
-                new LockoutPolicyItem(x => x >= 10, "Login unsuccessful. You will now need to wait 24 hours before you can attempt to log in again.", TimeSpan.FromHours(24))
+                new LockoutPolicyItem(x => x == 1 || x == 2, "Reset unsuccessful"),
+                new LockoutPolicyItem(x => x == 3 || x == 4, "Reset unsuccessful. You will now need to wait 30 seconds before you can attempt to reset your password again.", TimeSpan.FromSeconds(30)),
+                new LockoutPolicyItem(x => x == 5 || x == 6, "Reset unsuccessful. You will now need to wait 2 minutes before you can attempt to reset your password again.", TimeSpan.FromMinutes(2)),
+                new LockoutPolicyItem(x => x == 7 || x == 8 || x == 9, "Reset unsuccessful. You will now need to wait 30 minutes before you can attempt to reset your password again.", TimeSpan.FromMinutes(30)),
+                new LockoutPolicyItem(x => x >= 10, "Reset unsuccessful. You will now need to wait 24 hours before you can attempt to reset your password again.", TimeSpan.FromHours(24))
             });
 
             var errors = (ErrorMessagesSection)ConfigurationManager.GetSection("tlc.errors");

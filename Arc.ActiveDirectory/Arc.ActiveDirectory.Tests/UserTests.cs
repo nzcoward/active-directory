@@ -6,22 +6,22 @@ namespace Arc.ActiveDirectory.Tests
 {
     public class DefaultUserFinder : UserFinder
     {
-        public DefaultUserFinder() : base("LDAPPath")
+        public DefaultUserFinder() : base("LDAP://OU=Phoenix Users,DC=phoenix,DC=thelondonclinic,DC=com")
         { }
     }
 
     [TestClass]
     public class UserTests
     {
-        private const string userToTest = "testuser";
-        private const string password = "testpassword";
+        private const string userToTest = "amy.secretary";
+        private const string password = "C7s_T3st";
         //C5s_T3st
 
         [TestMethod]
         public void Bind()
         {
             var finder = new DefaultUserFinder();
-            var user = finder.FindWith(userToTest, "authuser", "authpassword");
+            var user = finder.FindWith(userToTest, "j.stewart", "Password3");
 
             Assert.IsNotNull(user);
         }
@@ -37,6 +37,14 @@ namespace Arc.ActiveDirectory.Tests
             Assert.IsNotNull(user);
         }
 
+        //[TestMethod]
+        //public void IsPasswordExpired()
+        //{
+        //    var finder = new UserFinder();
+        //    var user = finder.Find("bruce.consultant");
+
+        //    Assert.IsTrue(user.IsPasswordExpired);
+        //}
 
         [TestMethod]
         public void IsLocked()

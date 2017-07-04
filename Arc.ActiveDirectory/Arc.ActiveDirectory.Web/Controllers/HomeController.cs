@@ -85,7 +85,7 @@ namespace Arc.ActiveDirectory.Web.Controllers
                 if (!resetResponse.IsSuccess)
                     return Fail(new ErrorDetail { Code = resetResponse.ResponseCode, Message = resetResponse.Message, IsFatal = resetResponse.ContactServiceDesk });
 
-                var redirectParameter = string.IsNullOrEmpty(redirectUrl) ? "" : "?redirectUrl=" + redirectUrl;
+                var redirectParameter = "";// string.IsNullOrEmpty(redirectUrl) ? "" : "?redirectUrl=" + redirectUrl;
                 return Json(new { isSuccess = true, performRedirect = true, redirectUrl = "Home/Success" + redirectParameter });
             }
             catch
@@ -112,7 +112,7 @@ namespace Arc.ActiveDirectory.Web.Controllers
         {
             var message = error.Message;
 
-            //if (error.IsFatal)
+            if (error.IsFatal)
                 message += "<br/>Please contact the service desk quoting the code: " + error.Code;
 
             return Fail(new [] { message });

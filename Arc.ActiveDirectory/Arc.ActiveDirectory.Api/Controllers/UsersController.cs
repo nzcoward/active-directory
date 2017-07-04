@@ -50,7 +50,7 @@ namespace Arc.ActiveDirectory.Api.Controllers
                 return Fail(username, _errorMessages.InvalidCommand);
 
             if (_failedLoginManager.IsTimedOut(username))
-                return Fail(username, new ErrorDetail { IsFatal = true, Code = "3001", Message = _failedLoginManager.CurrentMessage }, false);
+                return Fail(username, new ErrorDetail { IsFatal = false, Code = "3001", Message = _failedLoginManager.CurrentMessage }, false);
 
             try
             {
